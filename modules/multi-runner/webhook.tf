@@ -4,8 +4,11 @@ module "webhook" {
   tags        = local.tags
   kms_key_arn = var.kms_key_arn
 
-  runner_config                 = local.runner_config
-  github_app_webhook_secret_arn = module.ssm.parameters.github_app_webhook_secret.arn
+  runner_config = local.runner_config
+
+  github_app_parameters = {
+    webhook_secret = module.ssm.parameters.github_app_webhook_secret
+  }
 
   lambda_s3_bucket                              = var.lambda_s3_bucket
   webhook_lambda_s3_key                         = var.webhook_lambda_s3_key

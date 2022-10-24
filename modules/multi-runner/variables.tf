@@ -489,3 +489,17 @@ variable "pool_lambda_reserved_concurrent_executions" {
   type        = number
   default     = 1
 }
+
+variable "ssm_paths" {
+  description = "The root path used in SSM to store configuration and secreets."
+  type = object({
+    root    = string
+    app     = string
+    runners = string
+  })
+  default = {
+    root    = "github-action-runners"
+    runners = "runners"
+    app     = "app"
+  }
+}
