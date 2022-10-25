@@ -60,7 +60,8 @@ fi
 chown -R $run_as .
 
 echo "Configure GH Runner as user $run_as"
-sudo --preserve-env=RUNNER_ALLOW_RUNASROOT -u "$run_as" -- ./config.sh --unattended --name "$instance_id" --work "_work" $${config}
+#sudo --preserve-env=RUNNER_ALLOW_RUNASROOT -u "$run_as" -- ./config.sh --unattended --name "$instance_id" --work "_work" $${config}
+sudo --preserve-env -u "$run_as" -- ./config.sh --unattended --name "$instance_id" --work "_work" $${config}
 
 info_arch=$(uname -p)
 info_os=$(( lsb_release -ds || cat /etc/*release || uname -om ) 2>/dev/null | head -n1 | cut -d "=" -f2- | tr -d '"')
@@ -87,7 +88,8 @@ if [[ $agent_mode = "ephemeral" ]]; then
 
 cat >/opt/start-runner-service.sh <<-EOF
   echo "Starting the runner in ephemeral mode"
-  sudo --preserve-env=RUNNER_ALLOW_RUNASROOT -u "$run_as" -- ./run.sh
+#  sudo --preserve-env=RUNNER_ALLOW_RUNASROOT -u "$run_as" -- ./run.sh
+  sudo --preserve-env -u "$run_as" -- ./run.sh
   echo "Runner has finished"
 
   echo "Stopping cloudwatch service"
